@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Col, Container, Row } from 'reactstrap';
 import Menu from './Menu';
@@ -8,15 +9,11 @@ const App = () => (
   <Container>
     <h1 className="App">Welcome to Bicyclable</h1>
     <Menu />
-    <Row>
+    <Row noGutters className="my-4">
       <Col xs={12} md={12}>
-
         <RouitingMap />
-
-
       </Col>
     </Row>
-
   </Container>
 );
 

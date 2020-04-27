@@ -1,17 +1,44 @@
+
 import React from 'react';
 import {
   Circle,
-  Map, Marker, Popup, TileLayer,
+  Map, Marker, Polyline, Popup, TileLayer,
 } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
+import {
+  Col, Container, Row,
+} from 'reactstrap';
+
+import ROUTE from '../mock/route.js';
+import Informations from './Informations';
+
 
 const myIcon = new L.DivIcon({
   className: '  RoutingMap__container',
   html: '<div class="RoutingMap__icon fa fa-3x fas fa-map-marker-alt"/>',
 });
 
-const center = [39.223841, 9.121661];
+const center = [39.249814699401256, 9.135911464254606];
+
+const Route = ({ route }) => (
+  route.map((m) => (
+    <div key={m.properties.seq}>
+      <Polyline
+        key={m.properties.seq}
+        fillColor="red"
+        color="red"
+        positions={
+        m.geometry.coordinates.map(
+          (coordinate) => (
+            [coordinate[1], coordinate[0]]),
+        )
+      }
+      />
+    </div>
+  )));
+
+
 class RouitingMap extends React.Component {
   mapRef = React.createRef();
 
@@ -67,43 +94,52 @@ class RouitingMap extends React.Component {
     // console.log('state', this.state);
     const { route } = this.state;
     return (
-      <div className="RoutingMap">
-        <i className=" fas fa-map-marker-alt" />
-        <Map
-          className="RoutingMap__map"
-          center={center}
-          zoom={17}
-          ref={this.mapRef}
-          onClick={this.handleClick}
-        >
-          <TileLayer
-            url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"
-            attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-          />
-          {route.map((m, index) => (
-            <div key={m.lat}>
-              <Circle key={m.lng} center={m} fillColor="blue" radius={5} color="red" />
-              <Marker
-                ref={this.refMarker[index]}
-                routeIndex={index}
-                key={m.lat}
-                position={m}
-                draggable
-                onDragend={(evt) => this.updatePosition(evt)}
-                icon={myIcon}
-              >
-                <Popup>
-                  <span>
-                    {`coordinate [${m.lat}, ${m.lng}]`}
-                  </span>
-                </Popup>
-              </Marker>
-            </div>
-          ))}
+      <Container noGutters className="RoutingMap p-0">
+        <Row noGutters>
+          <Col xs={12} md={12}>
+            <Map
+              className="RoutingMap__map"
+              center={center}
+              zoom={17}
+              minZoom={10}
+              maxZoom={30}
+              ref={this.mapRef}
+              onClick={this.handleClick}
+            >
 
-
-        </Map>
-      </div>
+              <TileLayer
+                url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"
+                attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+              />
+              {route.map((m, index) => (
+                <div key={m.lat}>
+                  <Marker
+                    ref={this.refMarker[index]}
+                    routeIndex={index}
+                    key={m.lat}
+                    position={m}
+                    draggable
+                    onDragend={(evt) => this.updatePosition(evt)}
+                    icon={myIcon}
+                  >
+                    <Popup>
+                      <span>
+                        {`coordinate [${m.lat}, ${m.lng}]`}
+                      </span>
+                    </Popup>
+                  </Marker>
+                  {index === 1 ? <Route route={ROUTE.features} /> : null}
+                </div>
+              ))}
+            </Map>
+          </Col>
+        </Row>
+        <Row noGutters className="my-5">
+          <Col xs={12} md={12}>
+            <Informations />
+          </Col>
+        </Row>
+      </Container>
     );
   }
 }
