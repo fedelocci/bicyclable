@@ -4,17 +4,18 @@ import {
   Map, Marker, Popup, TileLayer,
 } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
+import L from 'leaflet';
 
-// const myIcon = new L.DivIcon({
-//   iconSize: new L.Point(30, 30),
-//   className: 'fa fas fa-map-marker-alt',
-// });
+const myIcon = new L.DivIcon({
+  className: '  RoutingMap__container',
+  html: '<div class="RoutingMap__icon fa fa-3x fas fa-map-marker-alt"/>',
+});
 
-const position = [39.223841, 9.121661];
+const center = [39.223841, 9.121661];
 class RouitingMap extends React.Component {
   mapRef = React.createRef();
 
-  refmarker = React.createRef();
+  refMarker = [React.createRef(), React.createRef()];
 
   constructor() {
     super();
@@ -47,12 +48,13 @@ class RouitingMap extends React.Component {
     }
   }
 
-  updatePosition() {
-    const marker = this.refmarker.current;
+  updatePosition(evt) {
+    const { routeIndex } = evt.target.options;
+    const marker = this.refMarker[routeIndex].current;
+
     if (marker != null) {
       this.setState((prevState) => {
         const { route } = prevState;
-        const { routeIndex } = marker.props;
         route[routeIndex] = { ...marker.leafletElement.getLatLng() };
         return {
           route,
@@ -62,15 +64,15 @@ class RouitingMap extends React.Component {
   }
 
   render() {
-    console.log('state', this.state);
+    // console.log('state', this.state);
     const { route } = this.state;
     return (
       <div className="RoutingMap">
         <i className=" fas fa-map-marker-alt" />
         <Map
           className="RoutingMap__map"
-          center={position}
-          zoom={15}
+          center={center}
+          zoom={17}
           ref={this.mapRef}
           onClick={this.handleClick}
         >
@@ -80,14 +82,15 @@ class RouitingMap extends React.Component {
           />
           {route.map((m, index) => (
             <div key={m.lat}>
-              <Circle key={m.lng} center={m} fillColor="blue" radius={2} color="black" />
+              <Circle key={m.lng} center={m} fillColor="blue" radius={5} color="red" />
               <Marker
-                ref={this.refmarker}
+                ref={this.refMarker[index]}
                 routeIndex={index}
                 key={m.lat}
                 position={m}
                 draggable
-                onDragend={this.updatePosition}
+                onDragend={(evt) => this.updatePosition(evt)}
+                icon={myIcon}
               >
                 <Popup>
                   <span>
