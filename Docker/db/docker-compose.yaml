@@ -1,0 +1,15 @@
+version: '3.6'
+
+################################################
+services:
+  # PGROUNTING --------------------------------------------
+  postgis:
+    image: "pgrouting/pgrouting:10-2.5-master"
+    container_name: "db"
+    ports:
+      - "5432:5432"         # only used by the external TMS poller script
+    volumes:
+      - ./db/data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=postgis
+
