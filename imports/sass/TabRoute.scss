@@ -1,0 +1,11 @@
+.TabRoute {
+  &__table_container {
+    position: relative;
+    max-height: 400px;
+    overflow: auto;
+  }
+  &__table-scroll {
+    display: block;
+  }
+}
+

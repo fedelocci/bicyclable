@@ -1,7 +1,6 @@
 
 import React from 'react';
 import {
-  Circle,
   Map, Marker, Polyline, Popup, TileLayer,
 } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
@@ -48,11 +47,32 @@ class RouitingMap extends React.Component {
     super();
     this.handleClick = this.handleClick.bind(this);
     this.updatePosition = this.updatePosition.bind(this);
+    this.setLoad = this.setLoad.bind(this);
     this.state = {
       count: 0,
       route: [],
+      path: [],
+      load: false,
     };
   }
+
+  componentDidUpdate() {
+    const { count, load } = this.state;
+    if (count === 2 && !load) {
+      this.fetchData();
+      this.setLoad(true);
+    }
+  }
+
+  setLoad(load) {
+    this.setState({ load });
+  }
+
+  async fetchData () {
+    const path = await Promise.resolve(ROUTE.features);
+    this.setState({ path });
+  }
+
 
   handleClick(evt) {
     // console.log('handleClick', evt.latlng);
@@ -75,6 +95,7 @@ class RouitingMap extends React.Component {
     }
   }
 
+
   updatePosition(evt) {
     const { routeIndex } = evt.target.options;
     const marker = this.refMarker[routeIndex].current;
@@ -87,14 +108,15 @@ class RouitingMap extends React.Component {
           route,
         };
       });
+      this.setLoad(false);
     }
   }
 
   render() {
     // console.log('state', this.state);
-    const { route } = this.state;
+    const { route, path } = this.state;
     return (
-      <Container noGutters className="RoutingMap p-0">
+      <Container className="RoutingMap p-0">
         <Row noGutters>
           <Col xs={12} md={12}>
             <Map
@@ -128,15 +150,16 @@ class RouitingMap extends React.Component {
                       </span>
                     </Popup>
                   </Marker>
-                  {index === 1 ? <Route route={ROUTE.features} /> : null}
+
                 </div>
               ))}
+              <Route route={path} />
             </Map>
           </Col>
         </Row>
         <Row noGutters className="my-5">
           <Col xs={12} md={12}>
-            <Informations />
+            <Informations info={path.map(m => m.properties)} />
           </Col>
         </Row>
       </Container>

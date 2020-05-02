@@ -1,0 +1,23 @@
+.Direction__arrow {
+   width: 30px;
+   height: 30px;
+   background-repeat: no-repeat;
+   background-position: center;
+   background-size: contain;
+}
+
+.Direction__arrow-left {
+  background-image: url('images/arrow-left.png');
+}
+
+.Direction__arrow-down {
+  background-image: url('images/arrow-down.png');
+}
+
+.Direction__arrow-right {
+  background-image: url('images/arrow-right.png');
+}
+
+.Direction__arrow-up {
+  background-image: url('images/arrow-up.png');
+}

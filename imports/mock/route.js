@@ -14,7 +14,7 @@ export default {
     {
       type: 'Feature',
       properties: {
-        seq: 2, gid: 204, name: null, length: 0.070159327884399506, the_time: 0.00071651722277069605, azimuth: 319.67544050105602,
+          seq: 2, gid: 204, name: null, length: 0.070159327884399506, the_time: 0.00071651722277069605, azimuth: 319.67544050105602,
       },
       geometry: { type: 'LineString', coordinates: [[9.1383344, 39.249287], [9.1379622, 39.2496417], [9.1379159, 39.2496177], [9.1378864, 39.2496448], [9.137974, 39.2497116]] },
     },
