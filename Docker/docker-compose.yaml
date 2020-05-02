@@ -1,0 +1,28 @@
+version: '3.6'
+
+services: 
+  pgrouting:
+      image: "pgrouting/pgrouting:10-2.5-master"
+      container_name: "pgrouting"
+      ports:
+        - "5432:5432"
+      volumes:
+        - ./data/pgrouting:/var/lib/postgresql/data
+      environment:
+        - POSTGRES_PASSWORD=postgis
+      networks:
+        - db
+ 
+  geoserver:
+      image: geonode/geoserver:2.15.x
+      container_name: geoserver
+      ports:
+        - "8888:8080"
+      volumes:
+        - ./data/geoserver:/geoserver_data/data
+      networks:
+        - db
+
+networks:
+  db:
+    
