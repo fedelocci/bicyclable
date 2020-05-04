@@ -5,8 +5,8 @@
     <charset>UTF-8</charset>
     <numDecimals>8</numDecimals>
     <onlineResource>http://geoserver.org</onlineResource>
-    <proxyBaseUrl>http://geonode:80/geoserver</proxyBaseUrl>
-    <verbose>false</verbose>
+    <proxyBaseUrl>http://localhost:8888/geoserver</proxyBaseUrl>
+    <verbose>true</verbose>
     <verboseExceptions>false</verboseExceptions>
     <metadata>
       <map>
@@ -64,11 +64,11 @@
     <queueType>UNBOUNDED</queueType>
     <imageIOCacheThreshold>10240</imageIOCacheThreshold>
   </coverageAccess>
-  <updateSequence>56</updateSequence>
+  <updateSequence>60</updateSequence>
   <featureTypeCacheSize>0</featureTypeCacheSize>
   <globalServices>true</globalServices>
   <xmlPostRequestLogBufferSize>1024</xmlPostRequestLogBufferSize>
   <xmlExternalEntitiesEnabled>false</xmlExternalEntitiesEnabled>
   <webUIMode>DEFAULT</webUIMode>
   <resourceErrorHandling>SKIP_MISCONFIGURED_LAYERS</resourceErrorHandling>
-</global>
+</global> 
